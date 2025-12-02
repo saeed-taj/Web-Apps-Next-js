@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: HKVenetian-Regular
+font link: https://hanken.co/product/hk-venetian/
+font author: Hanken Design Co.
+font author site: https://hanken.co/
+
+
+icon designer: Mister Pixel
+icon designer link: /creator/MisterPixel/
+        
+{"bg-gradient-0":"#326D8A","bg-gradient-1":"#D468D7","icon":"#ffffff","font":"#ffffff","slogan":"#ffffff"}
+      

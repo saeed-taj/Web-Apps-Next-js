@@ -1,5 +1,5 @@
 'use client'
-
+import Image from "next/image";
 import { useState } from 'react'
 import {
   Dialog,
@@ -13,9 +13,9 @@ import {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+// fixed top-0 border-b w-full border-gray-400/30 
   return (
-    <header className="bg-gray-900">
+    <header className="bg-gray-900 ">
       <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         
         {/* Logo */}
@@ -23,10 +23,10 @@ export default function Navbar() {
           <a href="#" className="-m-1.5 p-1.5 flex items-center gap-2">
             <img
               alt="LawMate Logo"
-              src="/logo.svg"
-              className="h-8 w-auto"
+              src="/images/logo.svg"
+              className="h-12 w-20"
             />
-            <span className="text-white text-xl font-bold">LawMate</span>
+            <span className="text-white text-xl font-bold italic font-serif tracking-wide">LawMate</span>
           </a>
         </div>
 
@@ -81,7 +81,7 @@ export default function Navbar() {
             <a href="#" className="-m-1.5 p-1.5 flex items-center gap-2">
               <img
                 alt="LawMate Logo"
-                src="/logo.svg"
+                src="/images/logo.svg"
                 className="h-8 w-auto"
               />
               <span className="text-white text-xl font-bold">LawMate</span>

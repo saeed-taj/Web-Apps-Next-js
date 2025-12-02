@@ -4,11 +4,11 @@ import Image from "next/image";
 import { Button, Typography } from "@material-tailwind/react";
 import SearchBar from "./Searchbar";
 import TransitionalText from "./TransitionalText";
-import { Gavel } from "lucide-react";
+import { Gavel, User } from "lucide-react";
 
 export default function Hero() {
   return (
-    <header className="bg-white py-16 lg:py-6">
+    <header className="bg-white py-16 lg:py-6 ">
       <div className="container mx-auto px-4 grid w-full min-h-[60vh] grid-cols-1 items-center gap-14 lg:grid-cols-2">
 
         {/* Left Section */}
@@ -24,7 +24,7 @@ export default function Hero() {
             className="text-3xl lg:text-5xl font-bold !leading-tight text-blue-gray-900"
           >
             Find and Book the <br />
-            <span className="text-orange-400">
+            <span className="text-orange-400 mb-0.6">
               <TransitionalText />
             </span>{" "}
             near you
@@ -57,6 +57,7 @@ export default function Hero() {
                 flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 
                  hover:bg-gray-100 cursor-pointer"
               >
+                <User className="h-5 w-5"/>
                 Client
               </Button>
 
@@ -72,6 +73,25 @@ export default function Hero() {
 
             </div>
           </div>
+
+<div className="py-4 flex gap-6 ">
+  <div className="flex flex-col items-center gap-2">
+    <span className="font-bold text-lg">
+      67+
+    </span>
+    <span className="text-sm text-gray-600 font-bold">
+      Active Lawyers
+    </span>
+  </div>
+    <div className="flex flex-col align-center justify-center items-center gap-2">
+    <span className="font-bold text-lg">
+      130+
+    </span>
+    <span className="text-sm text-gray-600 font-bold">
+      Active Clients
+    </span>
+  </div>
+</div>
 
         </div>
 
