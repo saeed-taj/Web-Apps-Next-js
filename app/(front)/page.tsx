@@ -5,9 +5,8 @@ import Navbar from '@/components/Frontend/Navbar'
 export default function Home() {
   return (
     <main>
-      
+     
       <Navbar />
-      <MegaMenu/>
       <Hero />
     </main>
   )
