@@ -42,7 +42,7 @@ const brandsData = [
 
 export default function Brand1() {
   return (
-    <section className="bg-white py-20 lg:py-[120px] dark:bg-dark">
+    <section className="bg-blue-100 py-20 lg:py-[90px] dark:bg-dark rounded-2xl ml-1 mr-1">
         <h2 className="text-center pb-6 ">Trusted By</h2>
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap">

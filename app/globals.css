@@ -113,6 +113,13 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+/* Ensure images in cards display correctly */
+.relative > img {
+  position: absolute !important;
+  height: 100% !important;
+  width: 100% !important;
+  inset: 0 !important;
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

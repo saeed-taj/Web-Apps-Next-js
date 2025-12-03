@@ -5,8 +5,11 @@ import { Button, Typography } from "@material-tailwind/react";
 import SearchBar from "./Searchbar";
 import TransitionalText from "./TransitionalText";
 import { Gavel, User } from "lucide-react";
+import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <header className="bg-white py-16 lg:py-6 ">
       <div className="container mx-auto px-4 grid w-full min-h-[60vh] grid-cols-1 items-center gap-14 lg:grid-cols-2">
@@ -49,32 +52,34 @@ export default function Hero() {
               Join as
             </Typography>
 
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex align-center justify-center flex-col md:flex-row gap-4">
+              <Link href="/register?role=client" className="w-full md:w-48">
+                <Button
+                  color="white"
+                  className="w-full border border-gray-300 text-gray-800 
+                  flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 
+                  hover:bg-gray-100 cursor-pointer"
+                >
+                  <User className="h-5 w-5"/>
+                  Client
+                </Button>
+              </Link>
 
-              <Button
-                color="white"
-                className="w-full md:w-48 border border-gray-300 text-gray-800 
-                flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 
-                 hover:bg-gray-100 cursor-pointer"
-              >
-                <User className="h-5 w-5"/>
-                Client
-              </Button>
-
-              <Button
-  className="w-full md:w-48 
-  bg-gray-900 hover:bg-gray-700 active:bg-blue-900 
-  text-white flex items-center justify-center gap-2 
-  shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
->
-  <Gavel className="h-5 w-5" />
-  Lawyer
-</Button>
-
+              <Link href="/register" className="w-full md:w-48">
+                <Button
+                  className="w-full 
+                  bg-gray-900 hover:bg-gray-700 active:bg-blue-900 
+                  text-white flex items-center justify-center gap-2 
+                  shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                >
+                  <Gavel className="h-5 w-5" />
+                  Lawyer
+                </Button>
+              </Link>
             </div>
           </div>
 
-<div className="py-4 flex gap-6 ">
+<div className="py-4 flex gap-6 align-center justify-center ">
   <div className="flex flex-col items-center gap-2">
     <span className="font-bold text-lg">
       67+

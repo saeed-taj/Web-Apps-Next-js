@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import { useState } from 'react'
 import {
   Dialog,
@@ -10,6 +9,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
+import Link from 'next/link';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -20,14 +20,14 @@ export default function Navbar() {
         
         {/* Logo */}
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5 flex items-center gap-2">
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
             <img
               alt="LawMate Logo"
               src="/images/logo.svg"
               className="h-12 w-20"
             />
             <span className="text-white text-xl font-bold italic font-serif tracking-wide">LawMate</span>
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -43,30 +43,30 @@ export default function Navbar() {
 
         {/* Main Links */}
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold text-white">Home</a>
-          <a href="#" className="text-sm font-semibold text-white">Lawyers</a>
-          <a href="#" className="text-sm font-semibold text-white">About</a>
-          <a href="#" className="text-sm font-semibold text-white">Contact</a>
+          <Link href="/" className="text-sm font-semibold text-white hover:text-blue-400 transition">Home</Link>
+          <Link href="/LawyersOverview" className="text-sm font-semibold text-white hover:text-blue-400 transition">Lawyers</Link>
+          <a href="#about" className="text-sm font-semibold text-white hover:text-blue-400 transition">About</a>
+          <a href="#contact" className="text-sm font-semibold text-white hover:text-blue-400 transition">Contact</a>
         </PopoverGroup>
 
         {/* Desktop Login Buttons */}
         <div className="hidden lg:flex lg:gap-4 lg:flex-1 lg:justify-end">
           
           {/* Client Login */}
-          <a
-            href="#"
+          <Link
+            href="/login"
             className="text-sm font-semibold text-white border border-gray-400 px-5 py-2.5 rounded-lg hover:bg-white/10 transition"
           >
             Client Login
-          </a>
+          </Link>
 
           {/* Lawyer Login */}
-          <a
-            href="#"
+          <Link
+            href="/login"
             className="text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 px-5 py-2.5 rounded-lg shadow-md transition"
           >
             Lawyer Login →
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -78,14 +78,14 @@ export default function Navbar() {
           
           {/* Mobile Header */}
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5 flex items-center gap-2">
+            <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
               <img
                 alt="LawMate Logo"
                 src="/images/logo.svg"
                 className="h-8 w-auto"
               />
               <span className="text-white text-xl font-bold">LawMate</span>
-            </a>
+            </Link>
 
             <button
               type="button"
@@ -102,30 +102,30 @@ export default function Navbar() {
 
               {/* Regular Navigation */}
               <div className="space-y-2 py-6">
-                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Home</a>
-                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Lawyers</a>
-                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">About</a>
-                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Contact</a>
+                <Link href="/" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Home</Link>
+                <Link href="/LawyersOverview" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Lawyers</Link>
+                <a href="#about" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">About</a>
+                <a href="#contact" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-white hover:bg-white/5">Contact</a>
               </div>
 
               {/* Mobile Logins */}
               <div className="py-6 space-y-4">
 
                 {/* Client Login */}
-                <a
-                  href="#"
+                <Link
+                  href="/login"
                   className="-mx-3 block rounded-lg px-3 py-3 text-base font-semibold text-white border border-gray-400 hover:bg-white/5"
                 >
                   Client Login
-                </a>
+                </Link>
 
                 {/* Lawyer Login */}
-                <a
-                  href="#"
+                <Link
+                  href="/login"
                   className="-mx-3 block rounded-lg px-3 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500"
                 >
                   Lawyer Login →
-                </a>
+                </Link>
 
               </div>
             </div>

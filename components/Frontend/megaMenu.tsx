@@ -233,7 +233,7 @@ const megaMenus = [
     ]
   },
   {
-    Title : "Doctors",
+    Title : "Lawyers",
     Services : [
        {
     title: "Power of Attorney",
