@@ -655,7 +655,7 @@ export default function MegaMenu() {
   <NavigationMenuItem key={i}>
     <NavigationMenuTrigger>{item.Title}</NavigationMenuTrigger>
 
-    <NavigationMenuContent className="bg-white shadow-lg rounded-lg p-4 cursor-pointer">
+    <NavigationMenuContent className="bg-white shadow-lg rounded-lg p-4 cursor-pointer ">
       <ul className="grid gap-3 sm:w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]">
 
         {item.Services.map((component) => (

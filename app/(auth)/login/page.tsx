@@ -72,9 +72,13 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
-          <div className="flex items-center justify-center gap-2">
-            <Scale className="h-10 w-10 text-primary" />
-            <span className="text-3xl font-bold text-foreground">LawMate</span>
+          <div className="flex items-center justify-center gap-2 bg-blue-950 py-4 rounded-2xl">
+           <img
+              alt="LawMate Logo"
+              src="/images/logo.svg" 
+              className="h-10 w-10 text-primary bg-blue-950" />
+            <span className="text-3xl font-bold text-foreground text-white">LawMate</span>
+            
           </div>
           <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
           <CardDescription className="text-center">
@@ -123,7 +127,7 @@ export default function Login() {
                 />
               </div>
             </div>
-            <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isLoading}>
+            <Button type="submit" variant="hero" className="w-full bg-blue-950" size="lg" disabled={isLoading}>
               {isLoading ? "Logging In..." : "Log In"}
             </Button>
           </form>

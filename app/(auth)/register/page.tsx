@@ -71,7 +71,10 @@ function RegisterForm() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <Scale className="h-10 w-10 text-primary" />
+            <img
+              alt="LawMate Logo"
+              src="/images/logo.svg" 
+              className="h-10 w-10 text-primary" />
             <span className="text-3xl font-bold text-foreground">LawMate</span>
           </div>
           <CardTitle className="text-2xl text-center">Create Your Account</CardTitle>
