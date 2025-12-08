@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// In a real application, you would query a database
-// This is a mock implementation - replace with actual database queries
-const users: Array<{
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-}> = [];
+import { validateUser } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,18 +14,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find user (in production, query database and verify hashed password)
-    const user = users.find((u) => u.email === email);
+    // Validate against in-memory store (replace with DB)
+    const user = validateUser(email, password);
 
     if (!user) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
-    // In production, compare hashed password
-    if (user.password !== password) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 401 }
@@ -64,4 +46,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
 

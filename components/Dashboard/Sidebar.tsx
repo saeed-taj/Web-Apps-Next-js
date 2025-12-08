@@ -87,3 +87,5 @@ export default function Sidebar({ role = "client" }: SidebarProps) {
   );
 }
 
+
+

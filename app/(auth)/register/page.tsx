@@ -1,14 +1,22 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Scale, Mail, Lock, User, Gavel, UserCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Gavel, Lock, Mail, Scale, User, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuthStore } from "@/lib/store/auth";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
@@ -19,8 +27,8 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { register, loading, error: storeError } = useAuthStore();
 
   const handleSubmit = (role: string) => async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,33 +44,11 @@ function RegisterForm() {
       return;
     }
 
-    setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          role,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
-      // Redirect to login or dashboard based on role
+      await register({ name, email, password, role });
       router.push(`/login?registered=true&role=${role}`);
     } catch (err: any) {
       setError(err.message || "An error occurred during registration");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -86,6 +72,11 @@ function RegisterForm() {
           {error && (
             <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
               {error}
+            </div>
+          )}
+          {storeError && !error && (
+            <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              {storeError}
             </div>
           )}
           <Tabs defaultValue={defaultRole} className="w-full">
@@ -162,8 +153,8 @@ function RegisterForm() {
                     />
                   </div>
                 </div>
-                <Button type="submit" variant="hero" className="w-full" size="lg" disabled={isLoading}>
-                  {isLoading ? "Signing Up..." : "Sign Up as Client"}
+                <Button type="submit" variant="hero" className="w-full" size="lg" disabled={loading}>
+                  {loading ? "Signing Up..." : "Sign Up as Client"}
                 </Button>
               </form>
             </TabsContent>
@@ -230,8 +221,8 @@ function RegisterForm() {
                     />
                   </div>
                 </div>
-                <Button type="submit" variant="professional" className="w-full" size="lg" disabled={isLoading}>
-                  {isLoading ? "Signing Up..." : "Sign Up as Lawyer"}
+                <Button type="submit" variant="professional" className="w-full" size="lg" disabled={loading}>
+                  {loading ? "Signing Up..." : "Sign Up as Lawyer"}
                 </Button>
               </form>
             </TabsContent>

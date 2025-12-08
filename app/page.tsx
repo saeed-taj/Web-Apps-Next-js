@@ -6,23 +6,20 @@ import TabbedSection from '@/components/Frontend/TabbedSection'
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen">
       <main>
-      <Navbar />
-        <div className="flex justify-center mt-4 md:mt-6 px-4">
-        <div className="w-full max-w-[1200px]">
-          <MegaMenu />
+        <Navbar />
+        <Hero />
+        <div className="flex justify-center -mt-8 md:-mt-12 px-4">
+          <div className="w-full max-w-[1200px]">
+            <MegaMenu />
+          </div>
         </div>
-      </div>  
-      <Hero />
-      <section>
-        <Brand1/>
-        <TabbedSection/>
-      </section>
-      
-    </main>
-    {/*<Footer >*/}
+        <section className="max-w-6xl mx-auto px-4 space-y-12 py-12">
+          <Brand1 />
+          <TabbedSection />
+        </section>
+      </main>
     </div>
-    
   )
 }

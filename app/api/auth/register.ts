@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// In a real application, you would use a database
-// For now, we'll use a simple in-memory store (replace with actual database)
-const users: Array<{
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-}> = [];
+import { addUser, findUserByEmail, StoredUser } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = users.find((u) => u.email === email);
+    const existingUser = findUserByEmail(email);
     if (existingUser) {
       return NextResponse.json(
         { error: "User with this email already exists" },
@@ -48,7 +38,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new user (in production, hash the password!)
-    const newUser = {
+    const newUser: StoredUser = {
       id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name,
       email,
@@ -57,7 +47,7 @@ export async function POST(request: NextRequest) {
       createdAt: new Date(),
     };
 
-    users.push(newUser);
+    addUser(newUser);
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;
@@ -77,4 +67,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
 

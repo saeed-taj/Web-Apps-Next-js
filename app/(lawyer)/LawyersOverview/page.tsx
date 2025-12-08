@@ -53,7 +53,7 @@ export default function FindLawyers() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar variant="lawyer" />
       <main className="flex-1 bg-muted">
         <div className="container mx-auto px-4 py-8">
           {/* Search Section */}

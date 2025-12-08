@@ -1,22 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Scale, Mail, Lock } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Lock, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useAuthStore } from "@/lib/store/auth";
 
 export default function Login() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [localError, setLocalError] = useState("");
+
+  const { login, loading, error, user } = useAuthStore();
 
   useEffect(() => {
     if (searchParams.get("registered") === "true") {
@@ -24,47 +33,26 @@ export default function Login() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (user) {
+      const role = user.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
+      router.push(role);
+    }
+  }, [user, router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setLocalError("");
     setSuccess("");
-    setIsLoading(true);
-
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
-
-      // Store token if provided
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-      }
-
-      // Redirect based on user role
-      const userRole = data.user?.role || "client";
-      if (userRole === "lawyer") {
-        router.push("/dashboardLawyers");
-      } else {
-        router.push("/dashboardClients");
+      await login(email, password);
+      const nextUser = useAuthStore.getState().user;
+      if (nextUser) {
+        const role = nextUser.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
+        router.push(role);
       }
     } catch (err: any) {
-      setError(err.message || "An error occurred during login");
-    } finally {
-      setIsLoading(false);
+      setLocalError(err.message || "An error occurred during login");
     }
   };
 
@@ -86,9 +74,9 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && (
+          {(localError || error) && (
             <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
-              {error}
+              {localError || error}
             </div>
           )}
           {success && (
@@ -127,8 +115,14 @@ export default function Login() {
                 />
               </div>
             </div>
-            <Button type="submit" variant="hero" className="w-full bg-blue-950" size="lg" disabled={isLoading}>
-              {isLoading ? "Logging In..." : "Log In"}
+            <Button
+              type="submit"
+              variant="hero"
+              className="w-full bg-blue-950"
+              size="lg"
+              disabled={loading}
+            >
+              {loading ? "Logging In..." : "Log In"}
             </Button>
           </form>
         </CardContent>
