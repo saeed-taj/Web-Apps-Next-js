@@ -30,7 +30,8 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const { register, loading, error: storeError } = useAuthStore();
 
-  const handleSubmit = (role: string) => async (e: React.FormEvent) => {
+  const handleSubmit = (role: "client" | "lawyer") => async (e: React.FormEvent) => {
+
     e.preventDefault();
     setError("");
     
@@ -47,7 +48,8 @@ function RegisterForm() {
     try {
       await register({ name, email, password, role });
       router.push(`/login?registered=true&role=${role}`);
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       setError(err.message || "An error occurred during registration");
     }
   };
@@ -226,8 +228,11 @@ function RegisterForm() {
                 </Button>
               </form>
             </TabsContent>
+
+
           </Tabs>
         </CardContent>
+
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-muted-foreground">
             Already have an account?{" "}
