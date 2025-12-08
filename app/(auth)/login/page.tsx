@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Lock, Mail } from "lucide-react";
+import { Lock, Mail, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,10 +28,10 @@ export default function Login() {
   const { login, loading, error, user } = useAuthStore();
 
   useEffect(() => {
-    if (searchParams.get("registered") === "true") {
-      setSuccess("Registration successful! Please log in.");
-    }
-  }, [searchParams]);
+  if (searchParams.get("registered") === "true") {
+    setSuccess("Registration successful! Please log in.");
+  }
+}, [searchParams]);
 
   useEffect(() => {
     if (user) {
@@ -40,21 +40,22 @@ export default function Login() {
     }
   }, [user, router]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLocalError("");
-    setSuccess("");
-    try {
-      await login(email, password);
-      const nextUser = useAuthStore.getState().user;
-      if (nextUser) {
-        const role = nextUser.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
-        router.push(role);
-      }
-    } catch (err: any) {
-      setLocalError(err.message || "An error occurred during login");
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLocalError("");
+  setSuccess("");
+
+  try {
+    await login(email, password);
+    const nextUser = useAuthStore.getState().user;
+    if (nextUser) {
+      const role = nextUser.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
+      router.push(role);
     }
-  };
+  } catch (err: any) {
+    setLocalError(err.message || "An error occurred during login");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted p-4">
@@ -84,7 +85,8 @@ export default function Login() {
               {success}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
+  
+      <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -125,6 +127,8 @@ export default function Login() {
               {loading ? "Logging In..." : "Log In"}
             </Button>
           </form>
+      
+          
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center text-muted-foreground">
