@@ -1,22 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// Mock lawyers storage - replace with database
-const lawyers: Array<{
-  id: string;
-  name: string;
-  email: string;
-  specialization: string;
-  experience: number;
-  location: string;
-  phone: string;
-  fees: number;
-  bio?: string;
-  createdAt: Date;
-}> = [];
+import clientPromise from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const client = await clientPromise;
+    const db = client.db("saeedtaj00_db_user");
+
+    const body = await request.json(); // catching the data from the frontend 
+
     const { name, email, specialization, experience, location, phone, fees, bio } = body;
 
     // Validation
@@ -27,35 +18,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if lawyer already exists
-    const existingLawyer = lawyers.find((lawyer) => lawyer.email === email);
+    // Check in database
+    const existingLawyer = await db.collection("lawyers").findOne({ email });
+
     if (existingLawyer) {
       return NextResponse.json(
         { error: "Lawyer with this email already exists" },
         { status: 409 }
       );
     }
-
-    // Create lawyer profile
+      
+    // Create lawyer object
     const newLawyer = {
-      id: `lawyer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name,
       email,
       specialization,
       experience: experience || 0,
       location,
       phone,
-      fees: fees || 5000,
+      fees: fees || 2000, 
       bio: bio || "",
       createdAt: new Date(),
     };
 
-    lawyers.push(newLawyer);
+    // Save to database
+    const result = await db.collection("lawyers").insertOne(newLawyer);
 
     return NextResponse.json(
       {
         message: "Lawyer profile created successfully",
-        lawyer: newLawyer,
+        lawyer: { ...newLawyer, id: result.insertedId },
       },
       { status: 201 }
     );
@@ -68,3 +60,16 @@ export async function POST(request: NextRequest) {
   }
 }
 
+
+
+export async function GET() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("saeedtaj00_db_user");
+
+    const lawyers = await db.collection("lawyers").find({}).toArray();
+    return NextResponse.json(lawyers);
+  } catch (err) {
+    return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });
+  }
+}

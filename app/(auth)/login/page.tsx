@@ -39,27 +39,37 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      const role = user.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
-      router.push(role);
+      const redirect = searchParams.get("redirect");
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        const role = user.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
+        router.push(role);
+      }
     }
-  }, [user, router]);
+  }, [user, router, searchParams]);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLocalError("");
-  setSuccess("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLocalError("");
+    setSuccess("");
 
-  try {
-    await login(email, password);
-    const nextUser = useAuthStore.getState().user;
-    if (nextUser) {
-      const role = nextUser.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
-      router.push(role);
+    try {
+      await login(email, password);
+      const nextUser = useAuthStore.getState().user;
+      if (nextUser) {
+        const redirect = searchParams.get("redirect");
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          const role = nextUser.role === "lawyer" ? "/dashboardLawyers" : "/dashboardClients";
+          router.push(role);
+        }
+      }
+    } catch (err: any) {
+      setLocalError(err.message || "An error occurred during login");
     }
-  } catch (err: any) {
-    setLocalError(err.message || "An error occurred during login");
-  }
-};
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted p-4">

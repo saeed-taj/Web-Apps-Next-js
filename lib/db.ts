@@ -1,5 +1,8 @@
+import clientPromise, { dbName } from "./mongodb";
+import { ObjectId } from "mongodb";
+
 export type StoredUser = {
-  id: string;
+  _id?: ObjectId; // MongoDB will generate this
   name: string;
   email: string;
   password: string;
@@ -7,26 +10,37 @@ export type StoredUser = {
   createdAt: Date;
 };
 
-// Simple in-memory store to keep API routes in sync during runtime.
-// In production, replace this with a real database model.
-const users: StoredUser[] = [];
-
-export function addUser(user: StoredUser) {
-  users.push(user);
+// Add a new user
+export async function addUser(user: StoredUser) {
+  const client = await clientPromise;
+  const db = client.db(dbName);
+  const result = await db.collection("users").insertOne(user);
+  return { ...user, _id: result.insertedId };
 }
 
-export function findUserByEmail(email: string) {
-  return users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+// Find user by email
+export async function findUserByEmail(email: string) {
+  const client = await clientPromise;
+  const db = client.db(dbName);
+  return db.collection<StoredUser>("users").findOne({ email: email.toLowerCase() });
 }
 
-export function validateUser(email: string, password: string) {
-  const user = findUserByEmail(email);
+// Validate user (for login)
+// lib/db.ts
+export async function validateUser(email: string, password: string) {
+  const client = await clientPromise;
+  const db = client.db("lawmate"); // or use dbName if exported
+  const user = await db.collection<StoredUser>("users").findOne({ email: email.toLowerCase() });
+
   if (!user) return null;
-  if (user.password !== password) return null; // Replace with password hash compare
+  if (user.password !== password) return null; // TODO: use bcrypt in production
   return user;
 }
 
-export function listUsers() {
-  return users;
-}
 
+// List all users
+export async function listUsers() {
+  const client = await clientPromise;
+  const db = client.db(dbName);
+  return db.collection<StoredUser>("users").find().toArray();
+}

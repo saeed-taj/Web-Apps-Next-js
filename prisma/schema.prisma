@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+}
+
+model User {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String         @unique
+  password      String
+  role          String
+  createdAt     DateTime       @default(now())
+  lawyerProfile LawyerProfile?
+}
+
+model LawyerProfile {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @unique @db.ObjectId
+  specialization String
+  experience     Int
+  location       String
+  phone          String
+  fees           Int
+  bio            String
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}

@@ -41,6 +41,45 @@ const lawyers = [
     fees: 6000,
     available: true,
   },
+  {
+    id: "4",
+    name: "Adv. Muhammad Hassan",
+    specialization: "Property Law, Civil Law",
+    experience: 18,
+    rating: 4.9,
+    reviews: 245,
+    location: "Karachi, Pakistan",
+    phone: "+92 300 4567890",
+    email: "muhammad.hassan@lawmate.com",
+    fees: 8000,
+    available: true,
+  },
+  {
+    id: "5",
+    name: "Dr. Ayesha Malik",
+    specialization: "Corporate Law, Tax Law",
+    experience: 14,
+    rating: 4.8,
+    reviews: 189,
+    location: "Lahore, Pakistan",
+    phone: "+92 300 5678901",
+    email: "ayesha.malik@lawmate.com",
+    fees: 7500,
+    available: true,
+  },
+  {
+    id: "6",
+    name: "Adv. Zain Ali",
+    specialization: "Criminal Law, Cyber Crime",
+    experience: 11,
+    rating: 4.6,
+    reviews: 156,
+    location: "Islamabad, Pakistan",
+    phone: "+92 300 6789012",
+    email: "zain.ali@lawmate.com",
+    fees: 5500,
+    available: true,
+  },
 ];
 
 export async function GET(request: NextRequest) {
@@ -99,6 +138,4 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-
 

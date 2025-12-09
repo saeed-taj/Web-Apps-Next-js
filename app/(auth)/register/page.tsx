@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Gavel, Lock, Mail, Scale, User, UserCircle } from "lucide-react";
+import { Gavel, Lock, Mail, Scale, Type, User, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,13 +45,34 @@ function RegisterForm() {
       return;
     }
 
+    
+
     try {
+      
+      const res = await fetch('/api/auth/register' , {
+        method : "POST",
+        headers : { "Content-Type" : "application/json" },
+        body : JSON.stringify({name , email , password , role})
+      })
+      const data = await res.json()
+
+      if(!res.ok) throw new Error(data.message || "Something went wrong!");
+
+      
       await register({ name, email, password, role });
-      router.push(`/login?registered=true&role=${role}`);
+      
+      if(role == "lawyer"){
+        router.push('/onboarding')
+      }
+      else{
+        router.push(`/login?registered=true&role=${role}`);
+      }
+      
     } 
     catch (err: any) {
       setError(err.message || "An error occurred during registration");
     }
+
   };
 
   return (
@@ -102,7 +123,7 @@ function RegisterForm() {
                     <Input
                       id="client-name"
                       type="text"
-                      placeholder="John Doe"
+                      placeholder=" Name "
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="pl-10"
@@ -163,6 +184,7 @@ function RegisterForm() {
 
             <TabsContent value="lawyer">
               <form onSubmit={handleSubmit("lawyer")} className="space-y-4 mt-4">
+                
                 <div className="space-y-2">
                   <Label htmlFor="lawyer-name">Full Name</Label>
                   <div className="relative">
@@ -170,7 +192,7 @@ function RegisterForm() {
                     <Input
                       id="lawyer-name"
                       type="text"
-                      placeholder="Dr. Jane Smith"
+                      placeholder="Lawyer Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="pl-10"
@@ -178,6 +200,7 @@ function RegisterForm() {
                     />
                   </div>
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="lawyer-email">Email</Label>
                   <div className="relative">

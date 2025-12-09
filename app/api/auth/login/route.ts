@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    // Validation
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
@@ -14,8 +13,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate against in-memory store (replace with DB)
-    const user = validateUser(email, password);
+    //  Validate against MongoDB
+    const user = await validateUser(email, password);
 
     if (!user) {
       return NextResponse.json(
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate token (in production, use JWT or similar)
+    // Generate token (in production, use JWT)
     const token = `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Return user without password
@@ -46,6 +45,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-
-
